@@ -11,11 +11,17 @@ fun main() {
     val userLotto: List<Lotto> = getUserLotto(lottoCount)
     displayUserLotto(userLotto)
     val prizeNumbers = getPrizeNumber()
+    val bonusNumber = getBonusNumber()
 }
 
 fun getPrizeNumber(): List<Int> {
     println("\n당첨 번호를 입력해 주세요")
     return readLine().split(",").map { it.toInt() }
+}
+
+fun getBonusNumber(): Int {
+    println("\n보너스 번호를 입력해 주세요")
+    return readLine().toInt()
 }
 
 fun getUserLotto(lottoCount: Int): List<Lotto> =
