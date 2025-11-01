@@ -10,7 +10,12 @@ fun main() {
     println("\n${lottoCount}개를 구매했습니다.")
     val userLotto: List<Lotto> = getUserLotto(lottoCount)
     displayUserLotto(userLotto)
+    val prizeNumbers = getPrizeNumber()
+}
 
+fun getPrizeNumber(): List<Int> {
+    println("\n당첨 번호를 입력해 주세요")
+    return readLine().split(",").map { it.toInt() }
 }
 
 fun getUserLotto(lottoCount: Int): List<Lotto> =
