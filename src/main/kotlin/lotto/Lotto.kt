@@ -9,6 +9,6 @@ class Lotto(private val numbers: List<Int>) {
         return numbers.sorted().joinToString ( ", ", "[", "]" )
     }
 
-    fun getPrizeNumCount(prizeNumbers: List<Int>) =
-        numbers.toSet().intersect(prizeNumbers.toSet()).size
+    fun hasNumber(number: Int): Boolean = numbers.contains(number)
+    fun matchNumberCount(prizeNumbers: List<Int>) = numbers.toSet().intersect(prizeNumbers.toSet()).size
 }
