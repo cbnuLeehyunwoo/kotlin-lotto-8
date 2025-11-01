@@ -19,4 +19,12 @@ class LottoStatistics(
         }
         return result
     }
+
+    fun calculateRateOfReturn(purchaseAmount: Int): Double {
+        val totalPrize = rankCounts.entries.sumOf {(rank, count) ->
+            rank.prize * count
+        }
+        if(purchaseAmount == 0) return 0.0
+        return (totalPrize.toDouble() / purchaseAmount.toDouble()) * 100
+    }
 }
