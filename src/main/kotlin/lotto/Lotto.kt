@@ -8,4 +8,7 @@ class Lotto(private val numbers: List<Int>) {
     override fun toString(): String {
         return numbers.sorted().joinToString ( ", ", "[", "]" )
     }
+
+    fun getPrizeNumCount(prizeNumbers: List<Int>) =
+        numbers.toSet().intersect(prizeNumbers.toSet()).size
 }
