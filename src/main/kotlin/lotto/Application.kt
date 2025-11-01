@@ -9,6 +9,8 @@ fun main() {
     val lottoCount = calculateLottoCount(lottoPurchaseAmount)
     println("\n${lottoCount}개를 구매했습니다.")
     val userLotto: List<Lotto> = getUserLotto(lottoCount)
+    displayUserLotto(userLotto)
+
 }
 
 fun getUserLotto(lottoCount: Int): List<Lotto> =
@@ -23,3 +25,4 @@ fun calculateLottoCount(amount: Int): Int {
     return amount / 1000
 }
 
+fun displayUserLotto(userLotto: List<Lotto>) = userLotto.forEach { println(it) }
