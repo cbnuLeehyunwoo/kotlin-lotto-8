@@ -1,12 +1,16 @@
 package lotto
 
-import lotto.LottoConstants.MIN_NUMBER
-import lotto.LottoConstants.MAX_NUMBER
-import lotto.LottoConstants.PRICE
-import lotto.LottoMessage.*
-import lotto.LottoErrorMessage.*
+import lotto.model.LottoConstants.MIN_NUMBER
+import lotto.model.LottoConstants.MAX_NUMBER
+import lotto.model.LottoConstants.PRICE
+import lotto.model.LottoMessage.*
+import lotto.model.LottoErrorMessage.*
 import camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange
 import camp.nextstep.edu.missionutils.Console.readLine
+import lotto.model.Lotto
+import lotto.model.LottoMatcher
+import lotto.model.LottoStatistics
+import lotto.model.Rank
 
 fun main() {
     // TODO: 프로그램 구현

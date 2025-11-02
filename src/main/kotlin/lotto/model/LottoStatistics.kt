@@ -1,4 +1,4 @@
-package lotto
+package lotto.model
 
 class LottoStatistics(
     private val userLotto: List<Lotto>,

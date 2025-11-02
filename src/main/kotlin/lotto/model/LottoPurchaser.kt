@@ -1,8 +1,8 @@
-package lotto
+package lotto.model
 
-import lotto.LottoConstants.MIN_NUMBER
-import lotto.LottoConstants.MAX_NUMBER
-import lotto.LottoConstants.NUMBERS_COUNT
+import lotto.model.LottoConstants.MIN_NUMBER
+import lotto.model.LottoConstants.MAX_NUMBER
+import lotto.model.LottoConstants.NUMBERS_COUNT
 import camp.nextstep.edu.missionutils.Randoms
 
 class LottoPurchaser {

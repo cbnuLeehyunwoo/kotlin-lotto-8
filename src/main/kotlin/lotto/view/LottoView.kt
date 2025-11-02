@@ -1,7 +1,7 @@
 package lotto.view
 
-import lotto.Lotto
-import lotto.LottoStatistics
+import lotto.model.Lotto
+import lotto.model.LottoStatistics
 
 interface LottoView {
     fun readPurchaseAmount(): String

@@ -1,7 +1,7 @@
-package lotto
-import lotto.LottoConstants.MAX_NUMBER
-import lotto.LottoConstants.MIN_NUMBER
-import lotto.LottoConstants.NUMBERS_COUNT
+package lotto.model
+import lotto.model.LottoConstants.MAX_NUMBER
+import lotto.model.LottoConstants.MIN_NUMBER
+import lotto.model.LottoConstants.NUMBERS_COUNT
 class Lotto(private val numbers: List<Int>) {
     init {
         require(numbers.size == NUMBERS_COUNT) { "[ERROR] 로또 번호는 6개여야 합니다." }

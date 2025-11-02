@@ -1,4 +1,4 @@
-package lotto
+package lotto.model
 
 
 enum class LottoMessage(val message: String) {

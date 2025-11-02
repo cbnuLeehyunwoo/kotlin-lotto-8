@@ -1,4 +1,4 @@
-package lotto
+package lotto.model
 
 enum class Rank(val matchCount: Int, val prize: Int, val matchBonus: Boolean = false) {
     FIRST(6, 2_000_000_000),

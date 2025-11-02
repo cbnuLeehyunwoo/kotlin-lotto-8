@@ -1,4 +1,4 @@
-package lotto
+package lotto.model
 
 object LottoConstants {
     const val MIN_NUMBER = 1
