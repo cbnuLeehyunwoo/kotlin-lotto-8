@@ -12,8 +12,41 @@ fun main() {
     displayUserLotto(userLotto)
     val prizeNumbers = getPrizeNumber()
     val bonusNumber = getBonusNumber()
+    val lottoMatcher = LottoMatcher(prizeNumbers, bonusNumber)
+    val lottoStatistics = LottoStatistics(userLotto, lottoMatcher)
+    displayStatistics(lottoStatistics, lottoPurchaseAmount)
 }
 
+fun displayStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
+    println("\n당첨 통계")
+    println("---")
+    displayRankResults(statistics)
+    displayRateOfReturn(statistics, purchaseAmount)
+}
+
+private fun displayRankResults(statistics: LottoStatistics) {
+    Rank.entries
+        .filter { it != Rank.MISS }
+        .sortedBy { it.prize }
+        .forEach { rank ->
+            val count = statistics.rankCounts.getOrDefault(rank, 0)
+            val prize = String.format("%,d", rank.prize)
+            val matchInfo = buildMatchInfo(rank)
+            println("$matchInfo (${prize}원) - ${count}개")
+        }
+}
+
+private fun buildMatchInfo(rank: Rank): String =
+    when (rank) {
+        Rank.SECOND -> "${rank.matchCount}개 일치, 보너스 볼 일치"
+        else -> "${rank.matchCount}개 일치"
+    }
+
+private fun displayRateOfReturn(statistics: LottoStatistics, purchaseAmount: Int) {
+    val rate = statistics.calculateRateOfReturn(purchaseAmount)
+    val formatted = String.format("%.1f", rate)
+    println("총 수익률은 ${formatted}%입니다.")
+}
 fun getPrizeNumber(): List<Int> {
     println("\n당첨 번호를 입력해 주세요")
     return readLine().split(",").map { it.toInt() }
