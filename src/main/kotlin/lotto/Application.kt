@@ -48,12 +48,17 @@ fun validatePrizeNumber(prizeNumbers: List<String>) {
 }
 
 fun getPrizeNumbers(): List<Int> {
-    println("\n당첨 번호를 입력해 주세요")
-    val prizeNumbers = readLine()
-        .split(",")
-        .map { it.trim() }
-    validatePrizeNumber(prizeNumbers)
-    return prizeNumbers.map { it.toInt() }
+    while (true) {
+        println("\n당첨 번호를 입력해 주세요")
+        val input = readLine()?.trim().orEmpty()
+        val prizeNumbers = input.split(",").map { it.trim() }
+        try {
+            validatePrizeNumber(prizeNumbers)
+            return prizeNumbers.map { it.toInt() }
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
 }
 
 fun validateBonusNumber(bonusNumber: String, prizeNumbers: List<Int>) {
@@ -66,10 +71,16 @@ fun validateBonusNumber(bonusNumber: String, prizeNumbers: List<Int>) {
 
 
 fun getBonusNumber(prizeNumbers: List<Int>): Int {
-    println("\n보너스 번호를 입력해 주세요")
-    val bonusNumber = readLine()
-    validateBonusNumber(bonusNumber, prizeNumbers)
-    return bonusNumber.toInt()
+    while (true) {
+        println("\n보너스 번호를 입력해 주세요.")
+        val bonusNumber = readLine()?.trim().orEmpty()
+        try {
+            validateBonusNumber(bonusNumber, prizeNumbers)
+            return bonusNumber.toInt()
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
 }
 
 fun displayStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
