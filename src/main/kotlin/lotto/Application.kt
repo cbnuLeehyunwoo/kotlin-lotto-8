@@ -116,9 +116,17 @@ private fun displayRateOfReturn(statistics: LottoStatistics, purchaseAmount: Int
 
 
 fun getUserLotto(lottoCount: Int): List<Lotto> =
-    List(lottoCount) { Lotto(pickUniqueNumbersInRange(1, 45, 6)) }
+    List(lottoCount) {
+        generateValidLotto()
+    }
 
-
+fun generateValidLotto(): Lotto {
+    while (true) {
+        try {
+            return Lotto(pickUniqueNumbersInRange(1, 45, 6))
+        } catch (e: IllegalArgumentException) {}
+    }
+}
 fun calculateLottoCount(amount: Int): Int {
     return amount / 1000
 }
