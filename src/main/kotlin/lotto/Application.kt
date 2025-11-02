@@ -38,7 +38,23 @@ fun getLottoPurchaseAmount(): Int {
     }
 }
 
+fun validatePrizeNumber(prizeNumber: List<String>) {
+    require(prizeNumber.all { it.isNotEmpty() }) { "[ERROR] 빈 문자는 로또 번호가 될 수 없습니다." }
+    require(prizeNumber.all { it.toIntOrNull() != null }) { "[ERROR] 로또 번호는 문자일 수 없습니다." }
+    require(prizeNumber.size == 6) { "[ERROR] 당첨 번호는 6개여야 합니다." }
+    val numbers = prizeNumber.map { it.toInt() }
+    require(numbers.all { it in 1..45 }) { "[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다." }
+    require(numbers.size == numbers.toSet().size) { "[ERROR] 로또 번호의 중복은 불가능합니다." }
+}
 
+fun getPrizeNumber(): List<Int> {
+    println("\n당첨 번호를 입력해 주세요")
+    val prizeNumber = readLine()
+        .split(",")
+        .map { it.trim() }
+    validatePrizeNumber(prizeNumber)
+    return prizeNumber.map { it.toInt() }
+}
 
 fun displayStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
     println("\n당첨 통계")
@@ -69,10 +85,6 @@ private fun displayRateOfReturn(statistics: LottoStatistics, purchaseAmount: Int
     val rate = statistics.calculateRateOfReturn(purchaseAmount)
     val formatted = String.format("%.1f", rate)
     println("총 수익률은 ${formatted}%입니다.")
-}
-fun getPrizeNumber(): List<Int> {
-    println("\n당첨 번호를 입력해 주세요")
-    return readLine().split(",").map { it.toInt() }
 }
 
 fun getBonusNumber(): Int {
