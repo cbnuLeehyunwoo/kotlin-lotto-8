@@ -17,6 +17,29 @@ fun main() {
     displayStatistics(lottoStatistics, lottoPurchaseAmount)
 }
 
+fun validatePurchaseAmount(purchaseAmount: String) {
+    require(purchaseAmount.isNotEmpty()) { "[ERROR] 입력값이 비어 있습니다." }
+    require(purchaseAmount.toIntOrNull() != null) { "[ERROR] 숫자만 입력해주세요." }
+    val amount = purchaseAmount.toInt()
+    require(amount > 0) { "[ERROR] 0보다 큰 금액을 입력해주세요." }
+    require(amount % 1000 == 0) { "[ERROR] 구입 금액은 1000원 단위여야 합니다." }
+}
+
+fun getLottoPurchaseAmount(): Int {
+    while (true) {
+        println("구입금액을 입력해 주세요.")
+        val purchaseAmount = readLine().trim()
+        try {
+            validatePurchaseAmount(purchaseAmount)
+            return purchaseAmount.toInt()
+        } catch (e: IllegalArgumentException) {
+            println(e.message)
+        }
+    }
+}
+
+
+
 fun displayStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
     println("\n당첨 통계")
     println("---")
@@ -60,10 +83,6 @@ fun getBonusNumber(): Int {
 fun getUserLotto(lottoCount: Int): List<Lotto> =
     List(lottoCount) { Lotto(pickUniqueNumbersInRange(1, 45, 6)) }
 
-fun getLottoPurchaseAmount(): Int {
-    println("구입금액을 입력해 주세요.")
-    return readLine().toInt()
-}
 
 fun calculateLottoCount(amount: Int): Int {
     return amount / 1000
