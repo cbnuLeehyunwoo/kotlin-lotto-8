@@ -4,6 +4,7 @@ import lotto.LottoConstants.MIN_NUMBER
 import lotto.LottoConstants.MAX_NUMBER
 import lotto.LottoConstants.PRICE
 import lotto.LottoMessage.*
+import lotto.LottoErrorMessage.*
 import camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange
 import camp.nextstep.edu.missionutils.Console.readLine
 
@@ -22,11 +23,11 @@ fun main() {
 }
 
 fun validatePurchaseAmount(purchaseAmount: String) {
-    require(purchaseAmount.isNotEmpty()) { "[ERROR] 입력값이 비어 있습니다." }
-    require(purchaseAmount.toIntOrNull() != null) { "[ERROR] 숫자만 입력해주세요." }
+    require(purchaseAmount.isNotEmpty()) { ERROR_EMPTY_INPUT.getErrorMessage() }
+    require(purchaseAmount.toIntOrNull() != null) { ERROR_NOT_A_NUMBER.getErrorMessage() }
     val amount = purchaseAmount.toInt()
-    require(amount > 0) { "[ERROR] 0보다 큰 금액을 입력해주세요." }
-    require(amount % PRICE == 0) { "[ERROR] 구입 금액은 1000원 단위여야 합니다." }
+    require(amount > 0) { ERROR_AMOUNT_LESS_THAN_ZERO.getErrorMessage() }
+    require(amount % PRICE == 0) { ERROR_INVALID_PURCHASE_UNIT.getErrorMessage() }
 }
 
 fun getLottoPurchaseAmount(): Int {
@@ -43,12 +44,12 @@ fun getLottoPurchaseAmount(): Int {
 }
 
 fun validatePrizeNumber(prizeNumbers: List<String>) {
-    require(prizeNumbers.all { it.isNotEmpty() }) { "[ERROR] 빈 문자는 로또 번호가 될 수 없습니다." }
-    require(prizeNumbers.all { it.toIntOrNull() != null }) { "[ERROR] 로또 번호는 문자일 수 없습니다." }
-    require(prizeNumbers.size == 6) { "[ERROR] 당첨 번호는 6개여야 합니다." }
+    require(prizeNumbers.all { it.isNotEmpty() }) { ERROR_INVALID_LOTTO_NUMBER_COUNT.getErrorMessage() }
+    require(prizeNumbers.all { it.toIntOrNull() != null }) { ERROR_NOT_A_NUMBER.getErrorMessage() }
+    require(prizeNumbers.size == 6) { ERROR_INVALID_LOTTO_NUMBER_COUNT.getErrorMessage() }
     val numbers = prizeNumbers.map { it.toInt() }
-    require(numbers.all { it in 1..45 }) { "[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다." }
-    require(numbers.size == numbers.toSet().size) { "[ERROR] 로또 번호의 중복은 불가능합니다." }
+    require(numbers.all { it in 1..45 }) { ERROR_NUMBER_OUT_OF_RANGE.getErrorMessage() }
+    require(numbers.size == numbers.toSet().size) { ERROR_DUPLICATE_LOTTO_NUMBERS }
 }
 
 fun getPrizeNumbers(): List<Int> {
@@ -66,11 +67,11 @@ fun getPrizeNumbers(): List<Int> {
 }
 
 fun validateBonusNumber(bonusNumber: String, prizeNumbers: List<Int>) {
-    require(bonusNumber.isNotEmpty()) { "[ERROR] 빈 문자는 보너스 번호가 될 수 없습니다." }
-    require(bonusNumber.toIntOrNull() != null) { "[ERROR] 보너스 번호는 문자일 수 없습니다." }
+    require(bonusNumber.isNotEmpty()) { ERROR_EMPTY_BONUS_NUMBER.getErrorMessage() }
+    require(bonusNumber.toIntOrNull() != null) { ERROR_BONUS_NOT_A_NUMBER.getErrorMessage() }
     val amount = bonusNumber.toInt()
-    require(amount in MIN_NUMBER..MAX_NUMBER) { "[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다." }
-    require(amount !in prizeNumbers) { "[ERROR] 보너스 번호가 로또 번호와 중복됩니다." }
+    require(amount in MIN_NUMBER..MAX_NUMBER) { ERROR_NUMBER_OUT_OF_RANGE.getErrorMessage() }
+    require(amount !in prizeNumbers) { ERROR_BONUS_IN_WINNING_NUMBERS.getErrorMessage() }
 }
 
 
