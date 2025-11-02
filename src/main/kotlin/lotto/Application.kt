@@ -1,4 +1,5 @@
 package lotto
+import lotto.LottoConstants.PRICE
 
 import camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange
 import camp.nextstep.edu.missionutils.Console.readLine
@@ -22,7 +23,7 @@ fun validatePurchaseAmount(purchaseAmount: String) {
     require(purchaseAmount.toIntOrNull() != null) { "[ERROR] 숫자만 입력해주세요." }
     val amount = purchaseAmount.toInt()
     require(amount > 0) { "[ERROR] 0보다 큰 금액을 입력해주세요." }
-    require(amount % 1000 == 0) { "[ERROR] 구입 금액은 1000원 단위여야 합니다." }
+    require(amount % PRICE == 0) { "[ERROR] 구입 금액은 1000원 단위여야 합니다." }
 }
 
 fun getLottoPurchaseAmount(): Int {
@@ -128,7 +129,7 @@ fun generateValidLotto(): Lotto {
     }
 }
 fun calculateLottoCount(amount: Int): Int {
-    return amount / 1000
+    return amount / PRICE
 }
 
 fun displayUserLotto(userLotto: List<Lotto>) = userLotto.forEach { println(it) }
