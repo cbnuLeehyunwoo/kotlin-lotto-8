@@ -1,6 +1,9 @@
 package lotto
-import lotto.LottoConstants.PRICE
 
+import lotto.LottoConstants.MIN_NUMBER
+import lotto.LottoConstants.MAX_NUMBER
+import lotto.LottoConstants.PRICE
+import lotto.LottoMessage.*
 import camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange
 import camp.nextstep.edu.missionutils.Console.readLine
 
@@ -8,7 +11,7 @@ fun main() {
     // TODO: 프로그램 구현
     val lottoPurchaseAmount = getLottoPurchaseAmount()
     val lottoCount = calculateLottoCount(lottoPurchaseAmount)
-    println("\n${lottoCount}개를 구매했습니다.")
+    println(PURCHASE_COUNT_INFO.format(lottoCount))
     val userLotto: List<Lotto> = getUserLotto(lottoCount)
     displayUserLotto(userLotto)
     val prizeNumbers = getPrizeNumbers()
@@ -28,7 +31,7 @@ fun validatePurchaseAmount(purchaseAmount: String) {
 
 fun getLottoPurchaseAmount(): Int {
     while (true) {
-        println("구입금액을 입력해 주세요.")
+        println(REQUEST_PURCHASE_AMOUNT.message)
         val purchaseAmount = readLine().trim()
         try {
             validatePurchaseAmount(purchaseAmount)
@@ -50,7 +53,7 @@ fun validatePrizeNumber(prizeNumbers: List<String>) {
 
 fun getPrizeNumbers(): List<Int> {
     while (true) {
-        println("\n당첨 번호를 입력해 주세요")
+        println(REQUEST_WINNING_NUMBERS.message)
         val input = readLine()?.trim().orEmpty()
         val prizeNumbers = input.split(",").map { it.trim() }
         try {
@@ -66,14 +69,14 @@ fun validateBonusNumber(bonusNumber: String, prizeNumbers: List<Int>) {
     require(bonusNumber.isNotEmpty()) { "[ERROR] 빈 문자는 보너스 번호가 될 수 없습니다." }
     require(bonusNumber.toIntOrNull() != null) { "[ERROR] 보너스 번호는 문자일 수 없습니다." }
     val amount = bonusNumber.toInt()
-    require(amount in 1..45) { "[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다." }
+    require(amount in MIN_NUMBER..MAX_NUMBER) { "[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다." }
     require(amount !in prizeNumbers) { "[ERROR] 보너스 번호가 로또 번호와 중복됩니다." }
 }
 
 
 fun getBonusNumber(prizeNumbers: List<Int>): Int {
     while (true) {
-        println("\n보너스 번호를 입력해 주세요.")
+        println(REQUEST_BONUS_NUMBER.message)
         val bonusNumber = readLine()?.trim().orEmpty()
         try {
             validateBonusNumber(bonusNumber, prizeNumbers)
@@ -85,8 +88,7 @@ fun getBonusNumber(prizeNumbers: List<Int>): Int {
 }
 
 fun displayStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
-    println("\n당첨 통계")
-    println("---")
+    println(STATISTICS_HEADER.message)
     displayRankResults(statistics)
     displayRateOfReturn(statistics, purchaseAmount)
 }
@@ -98,21 +100,20 @@ private fun displayRankResults(statistics: LottoStatistics) {
         .forEach { rank ->
             val count = statistics.rankCounts.getOrDefault(rank, 0)
             val prize = String.format("%,d", rank.prize)
-            val matchInfo = buildMatchInfo(rank)
-            println("$matchInfo (${prize}원) - ${count}개")
+            val matchInfo = buildMatchInfo(rank, prize, count)
+            println(matchInfo)
         }
 }
 
-private fun buildMatchInfo(rank: Rank): String =
+private fun buildMatchInfo(rank: Rank, prize: String, count: Int): String =
     when (rank) {
-        Rank.SECOND -> "${rank.matchCount}개 일치, 보너스 볼 일치"
-        else -> "${rank.matchCount}개 일치"
+        Rank.SECOND -> STATISTICS_BONUS_RESULT_ENTRY.format(rank.matchCount, prize, count)
+        else -> STATISTICS_RESULT_ENTRY.format(rank.matchCount, prize, count)
     }
 
 private fun displayRateOfReturn(statistics: LottoStatistics, purchaseAmount: Int) {
     val rate = statistics.calculateRateOfReturn(purchaseAmount)
-    val formatted = String.format("%.1f", rate)
-    println("총 수익률은 ${formatted}%입니다.")
+    println(RATE_OF_RETURN.format(rate))
 }
 
 
