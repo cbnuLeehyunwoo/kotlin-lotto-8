@@ -1,10 +1,7 @@
 package lotto.view
 
 import camp.nextstep.edu.missionutils.Console
-import lotto.model.Lotto
 import lotto.model.LottoMessage
-import lotto.model.LottoStatistics
-import lotto.model.Rank
 
 class ConsoleView : LottoView {
     override fun readPurchaseAmount(): String {
@@ -22,15 +19,21 @@ class ConsoleView : LottoView {
         return Console.readLine()
     }
 
-    override fun showPurchaseResult(lotto: List<Lotto>) {
-        println(LottoMessage.PURCHASE_COUNT_INFO.format(lotto.size))
+    override fun showPurchaseResult(purchaseCount: Int, lotto: List<String>) {
+        println(LottoMessage.PURCHASE_COUNT_INFO.format(purchaseCount))
         lotto.forEach { println(it) }
     }
 
-    override fun showStatistics(statistics: LottoStatistics, purchaseAmount: Int) {
+    override fun showStatisticsHeader() {
         println(LottoMessage.STATISTICS_HEADER.message)
-        displayRankResults(statistics)
-        displayRateOfReturn(statistics, purchaseAmount)
+    }
+
+    override fun showRankResults(rankResults: List<String>) {
+        rankResults.forEach { println(it) }
+    }
+
+    override fun showRateOfReturn(rateOfReturn: Double) {
+        println(LottoMessage.RATE_OF_RETURN.format(rateOfReturn))
     }
 
     override fun showMessage(message: String) {
@@ -39,28 +42,5 @@ class ConsoleView : LottoView {
 
     override fun showError(message: String) {
         println(message)
-    }
-
-    private fun displayRankResults(statistics: LottoStatistics) {
-        Rank.entries
-            .filter { it != Rank.MISS }
-            .sortedBy { it.prize }
-            .forEach { rank ->
-                val count = statistics.rankCounts.getOrDefault(rank, 0)
-                val prize = String.format("%,d", rank.prize)
-                val message = buildMatchInfoMessage(rank, prize, count)
-                println(message)
-            }
-    }
-
-    private fun buildMatchInfoMessage(rank: Rank, prize: String, count: Int): String =
-        when (rank) {
-            Rank.SECOND -> LottoMessage.STATISTICS_BONUS_RESULT_ENTRY.format(rank.matchCount, prize, count)
-            else -> LottoMessage.STATISTICS_RESULT_ENTRY.format(rank.matchCount, prize, count)
-        }
-
-    private fun displayRateOfReturn(statistics: LottoStatistics, purchaseAmount: Int) {
-        val rate = statistics.calculateRateOfReturn(purchaseAmount)
-        println(LottoMessage.RATE_OF_RETURN.format(rate))
     }
 }

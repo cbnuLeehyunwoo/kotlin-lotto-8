@@ -8,8 +8,12 @@ interface LottoView {
     fun readWinningNumbers(): String
     fun readBonusNumber(): String
 
-    fun showPurchaseResult(lotto: List<Lotto>)
-    fun showStatistics(statistics: LottoStatistics, purchaseAmount: Int)
+    fun showPurchaseResult(purchaseCount: Int, lotto: List<String>)
+
+    fun showStatisticsHeader()
+    fun showRankResults(rankResults: List<String>)
+    fun showRateOfReturn(rateOfReturn: Double)
+
     fun showMessage(message: String)
     fun showError(message: String)
 }
