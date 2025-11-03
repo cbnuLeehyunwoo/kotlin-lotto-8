@@ -77,9 +77,51 @@
 | `" "` | 공백이 입력된 경우 |
 
 ## 3. ⚙️ 프로그램 구조
-
+```
+lotto
+├── main
+│   ├── kotlin
+│   │   └── lotto
+│   │       ├── Application.kt                  # 프로그램의 시작점 (main 함수, 조립자 역할)
+│   │       ├── model
+│   │       │   ├── Lotto.kt                    # 로또 한 장(번호 6개)을 표현하는 클래스
+│   │       │   ├── LottoConstants.kt           # 로또 관련 상수 정의 (가격, 범위 등)
+│   │       │   ├── LottoErrorMessage.kt        # 예외 발생 시 출력할 에러 메시지 정의 enum
+│   │       │   ├── LottoMatcher.kt             # 사용자 로또와 당첨 번호를 비교해 등수를 계산
+│   │       │   ├── LottoMessage.kt             # 사용자 안내 메시지 상수 정의 enum
+│   │       │   ├── LottoPurchaser.kt           # 금액에 따른 로또 생성 및 발행 로직
+│   │       │   ├── LottoRank.kt                # 로또 등수(FIRST~MISS) 정의 enum
+│   │       │   ├── LottoStatistics.kt          # 당첨 결과를 집계하고 수익률 계산
+│   │       │   └── NumberGenerator.kt          # 번호 생성 인터페이스 
+│   │       ├── presenter
+│   │       │   └── LottoPresenter.kt           # View와 Model을 연결하는 중간 제어자
+│   │       ├── util
+│   │       │   ├── LottoInputValidator.kt      # 사용자 입력값 유효성 검증
+│   │       │   └── RandomNumberGenerator.kt    # 실제 랜덤 번호를 생성하는 구현체
+│   │       └── view
+│   │           ├── ConsoleView.kt              # 콘솔 입출력을 담당하는 View 구현체
+│   │           └── LottoView.kt                # View 인터페이스 정의
+│
+└── test
+    ├── kotlin
+    │   └── lotto
+    │       ├── ApplicationTest.kt              # 프로그램 전체 실행 흐름 테스트 
+    │       ├── model
+    │       │   ├── LottoMatcherTest.kt         # 로또 등수 계산 로직 테스트
+    │       │   ├── LottoPurchaserTest.kt       # 로또 구매 및 번호 생성 재시도 테스트
+    │       │   ├── LottoStatisticsTest.kt      # 당첨 결과 집계 및 수익률 계산 테스트
+    │       │   └── LottoTest.kt                # Lotto 클래스의 기본 동작 검증
+    │       └── util
+    │           └── LottoInputValidatorTest.kt  # 입력 검증 로직 단위 테스트
+```
 ## 4. 💡 과제 수행 시 고려한 점
-
+- 프로그램 요구사항의 부분을 지키려고 노력했습니다 특히  
+  - **인덴트 depth 3 미만**  
+  - **함수가 한 가지 일만 하도록 최대한 작게 만들기**  
+  - 함수 길이 15라인 이하
+  -  `else` 를 최대한 지양
+  
+등을 최대한 지키기 위해 단일 책임 원칙에 초점을 두고 과제를 수행했습니다. 
 ## 5. 📄 프로그래밍 요구 사항
 
 ### ✅ 프로그래밍 요구 사항 1
