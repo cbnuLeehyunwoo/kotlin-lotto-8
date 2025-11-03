@@ -6,7 +6,7 @@ import lotto.model.LottoConstants.PRICE
 enum class LottoErrorMessage(val message: String) {
     ERROR_PREFIX("[ERROR] "),
     ERROR_EMPTY_INPUT("입력값이 비어 있습니다."),
-    ERROR_NOT_A_NUMBER("숫자 혹은 쉼표로 구분된 숫자 목록을 입력해주세요."), // 조금 더 구체적으로 변경
+    ERROR_NOT_A_NUMBER("숫자 혹은 쉼표로 구분된 숫자 목록을 입력해주세요."),
     ERROR_AMOUNT_LESS_THAN_ZERO("0보다 큰 금액을 입력해주세요."),
     ERROR_INVALID_PURCHASE_UNIT("구입 금액은 ${PRICE}원 단위여야 합니다."),
     ERROR_INVALID_LOTTO_NUMBER_COUNT("로또 번호는 ${LottoConstants.NUMBERS_COUNT}개여야 합니다."),
