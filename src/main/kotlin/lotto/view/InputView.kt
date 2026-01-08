@@ -1,4 +1,4 @@
-package christmas.view
+package lotto.view
 
 import camp.nextstep.edu.missionutils.Console
 

@@ -1,4 +1,6 @@
-package christmas.util
+package lotto.util
+
+import lotto.view.OutputView
 
 // 람다 함수를 받아서 예외가 발생하지 않을 때까지 반복 실행
 fun <T> retryWhenNoException(action: () -> T): T {
@@ -6,7 +8,7 @@ fun <T> retryWhenNoException(action: () -> T): T {
         try {
             return action()
         } catch (e: IllegalArgumentException) {
-            //OutputView.printError(e.message ?: "유효하지 않은 입력입니다.")
+            OutputView.printError(e.message ?: "유효하지 않은 입력입니다.")
         }
     }
 }

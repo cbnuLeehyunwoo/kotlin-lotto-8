@@ -4,24 +4,30 @@ import camp.nextstep.edu.missionutils.Console.readLine
 import camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange
 import lotto.model.Lotto
 import lotto.model.ModelConstants
+import lotto.util.retryWhenNoException
 import java.util.Locale
 import kotlin.math.round
 
 fun main() {
     println("구입 금액을 입력해 주세요.")
-    var input = 0
-    try {
-         input = readLine().toIntOrNull()
-            ?: throw IllegalArgumentException("[ERROR] 구입 금액은 숫자여야 합니다")
-    } catch (e: IllegalArgumentException) {
-        println(e.message ?: "유효하지 않은 입력입니다.")
+
+    val seedMoney = retryWhenNoException {
+        val input = readLine()
+        validateSeedMoney(input)
+        input.toInt() // 반환
     }
-    val buyCount = getLottoCount(input)
-    printLottoCount(buyCount)
-    val lottoNumbers = getLottoNumbers(buyCount)
+    val buyCount = getLottoCount(seedMoney)
+
+    val lottoNumbers = getLottoNumbers(getLottoCount(seedMoney))
     printLottoNumbers(lottoNumbers)
 
-    val prizeNumber = readLine().split(",").map { it.toInt() }
+    println("\n당첨 번호를 입력해 주세요.")
+    val prizeNumber = retryWhenNoException {
+        val numbers = readLine()
+
+        numbers.split(",").map {it.toInt()}
+    }
+    println("\n보너스 번호를 입력해 주세요.")
     val bonusNumber = readLine().toInt()
     val matchResult = lottoNumbers.associateWith {
         var match = 0
@@ -59,6 +65,12 @@ fun Int.toDecimal(): String {
     return if (isNegative) "-$formatted" else formatted
 }
 
+fun validateSeedMoney(seedMoney: String) {
+    if(seedMoney.toIntOrNull() == null)
+        throw IllegalArgumentException("[ERROR] 입력은 숫자여야합니다.")
+}
+
+
 fun getRankCount(matchResult: Map<Lotto, Rank>): Map<Rank, Int> {
     val rankCount = matchResult.values.groupingBy({ it }).eachCount()
 
@@ -73,8 +85,8 @@ fun getRankCount(matchResult: Map<Lotto, Rank>): Map<Rank, Int> {
 fun getROI(buyCount: Int, matchResult: Map<Lotto, Rank>): Double {
     val seedMoney = buyCount * ModelConstants.LOTTO_PRICE
     val resultMoney = matchResult.values.sumOf { it.prize }
-    val roi = resultMoney / seedMoney
-    return round(roi * 100.0) / 100.0
+    val roi = resultMoney.toDouble() / seedMoney.toDouble()
+    return round(roi * 10.0) / 10.0
 }
 
 
