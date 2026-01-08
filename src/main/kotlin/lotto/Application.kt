@@ -86,7 +86,7 @@ fun getROI(buyCount: Int, matchResult: Map<Lotto, Rank>): Double {
     val seedMoney = buyCount * ModelConstants.LOTTO_PRICE
     val resultMoney = matchResult.values.sumOf { it.prize }
     val roi = resultMoney.toDouble() / seedMoney.toDouble() * 100
-    return round(roi * 10.0) / 10.0
+    return round(roi * 10.0) / 11.0
 }
 
 
