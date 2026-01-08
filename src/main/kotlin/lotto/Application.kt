@@ -17,7 +17,7 @@ fun main() {
         input.toInt() // 반환
     }
     val buyCount = getLottoCount(seedMoney)
-
+    println("\n${buyCount}개를 구매했습니다.")
     val lottoNumbers = getLottoNumbers(getLottoCount(seedMoney))
     printLottoNumbers(lottoNumbers)
 
@@ -85,7 +85,7 @@ fun getRankCount(matchResult: Map<Lotto, Rank>): Map<Rank, Int> {
 fun getROI(buyCount: Int, matchResult: Map<Lotto, Rank>): Double {
     val seedMoney = buyCount * ModelConstants.LOTTO_PRICE
     val resultMoney = matchResult.values.sumOf { it.prize }
-    val roi = resultMoney.toDouble() / seedMoney.toDouble()
+    val roi = resultMoney.toDouble() / seedMoney.toDouble() * 100
     return round(roi * 10.0) / 10.0
 }
 
