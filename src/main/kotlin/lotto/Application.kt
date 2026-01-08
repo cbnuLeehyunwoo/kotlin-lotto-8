@@ -9,8 +9,13 @@ import kotlin.math.round
 
 fun main() {
     println("구입 금액을 입력해 주세요.")
-    val input = readLine().toIntOrNull()
-        ?: throw IllegalArgumentException("[ERROR]")
+    var input = 0
+    try {
+         input = readLine().toIntOrNull()
+            ?: throw IllegalArgumentException("[ERROR] 구입 금액은 숫자여야 합니다")
+    } catch (e: IllegalArgumentException) {
+        println(e.message ?: "유효하지 않은 입력입니다.")
+    }
     val buyCount = getLottoCount(input)
     printLottoCount(buyCount)
     val lottoNumbers = getLottoNumbers(buyCount)
@@ -107,6 +112,6 @@ fun printLottoCount(count: Int) {
 
 fun printLottoNumbers(lottoNumbers: List<Lotto>) {
     lottoNumbers.forEach {
-        println(it.getNumbers())
+        println(it.getNumbers().sorted())
     }
 }
